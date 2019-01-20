@@ -1,36 +1,34 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { handleAddTweet } from '../actions/tweets'
 
 class NewTweet extends Component {
   state = {
     text: '',
   }
   handleChange = (e) => {
-    cont text = e.target.value
-
-    this.setState(() => {
+    const text = e.target.value
+    this.setState(() => ({
       text
-    })
+    }))
   }
-  handleSubmit = () => {
+  handleSubmit = (e) => {
     e.preventDefault()
 
     const { text } = this.state
+    const { dispatch, id } = this.props
 
-    // TODO: ADD Tweet to Store
+    dispatch(handleAddTweet(text, id))
 
-    console.log('New Tweet: ', tweet)
-
-    this.setState(() => {
+    this.setState(() => ({
       text: ''
-    })
+    }))
   }
-  render(){
+  render() {
     const { text } = this.state
-
-    {/* TODO: Redirect to / if submitted */}
-
+    {/* todo: Redirect to / if submitted */}
     const tweetLeft = 280 - text.length
-    return(
+    return (
       <div>
         <h3 className='center'>Compose new Tweet</h3>
         <form className='new-tweet' onSubmit={this.handleSubmit}>
@@ -50,7 +48,7 @@ class NewTweet extends Component {
             className='btn'
             type='submit'
             disabled={text === ''}>
-            Submit
+              Submit
           </button>
         </form>
       </div>
@@ -58,4 +56,4 @@ class NewTweet extends Component {
   }
 }
 
-export default NewTweet
+export default connect()(NewTweet)
